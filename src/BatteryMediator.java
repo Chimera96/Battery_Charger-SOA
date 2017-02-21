@@ -9,14 +9,10 @@ import java.util.ArrayList;
 
 public class BatteryMediator extends Subscriber {
 
-    private ArrayList<Object> batteryPorts;
+    private String identifier;
 
-    public BatteryMediator(){
-        batteryPorts = new ArrayList<>();
-    }
 
-    public void add(BatteryCharger batteryCharger){
-        batteryPorts.addAll(batteryCharger.get)
-    }
 
 }
+
+
