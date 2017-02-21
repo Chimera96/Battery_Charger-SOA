@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Battery_Charger-SOA.iml" filepath="$PROJECT_DIR$/Battery_Charger-SOA.iml" />
-      <module fileurl="file://$PROJECT_DIR$/exchange_component_01/exchange_component_01.iml" filepath="$PROJECT_DIR$/exchange_component_01/exchange_component_01.iml" />
-      <module fileurl="file://$PROJECT_DIR$/exchange_component_02/exchange_component_02.iml" filepath="$PROJECT_DIR$/exchange_component_02/exchange_component_02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NormalBattery/exchange_component_01.iml" filepath="$PROJECT_DIR$/NormalBattery/exchange_component_01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SuperBattery/SuperBattery.iml" filepath="$PROJECT_DIR$/SuperBattery/SuperBattery.iml" />
     </modules>
   </component>
 </project>
