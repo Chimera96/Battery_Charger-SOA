@@ -5,20 +5,20 @@ import java.util.Properties;
 public enum Configuration {
     instance;
 
-    public BatteryType capacityType = BatteryType.normal;
+    public BatteryType capacityType = BatteryType.NormalBattery;
     public String userDirectory = System.getProperty("user.dir");
-    public String pathToJar = userDirectory + "/" + getLightType() + "/" + "Battery.jar";
+    public String pathToJar = userDirectory + "/" + getBatteryType() + "/" + "Battery.jar";
 
-    public BatteryType getLightType() {
+    public BatteryType getBatteryType() {
         try {
             Properties properties = new Properties();
             FileInputStream fileInputStream = new FileInputStream(userDirectory + "/" + "battery.props");
             properties.load(fileInputStream);
             fileInputStream.close();
             if (properties.getProperty("batteryType").equals("normal"))
-                return BatteryType.normal;
-            else if (properties.getProperty("batteryType").equals("sup3r"))
-                return BatteryType.sup3r;
+                return BatteryType.NormalBattery;
+            else if (properties.getProperty("batteryType").equals("super"))
+                return BatteryType.SuperBattery;
             else
                 return null;
         } catch (Exception e) {
