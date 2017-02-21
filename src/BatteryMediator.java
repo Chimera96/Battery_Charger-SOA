@@ -8,17 +8,31 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 
 public class BatteryMediator extends Subscriber {
     private String identifier;
-    private Object port;
+    private ArrayList<Object> portList;
+    private boolean power;
+
+
 
     public BatteryMediator(String identifier) {
         createBatteryPortInstance();
         this.identifier = identifier;
+        portList = new ArrayList<>();
+        init();
     }
 
-    private void createBatteryPortInstance() {
+    public void init() {
+        for(int i = 0; i < Configuration.instance.maxNumberBatteries; i++) {
+            portList.add(createBatteryPortInstance());
+        }
+    }
+
+    private Object createBatteryPortInstance() {
+        Object port = null;
+
         try {
             Object instance = null;
             URL[] urls = { new File(Configuration.instance.pathToJar).toURI().toURL() };
@@ -34,13 +48,15 @@ public class BatteryMediator extends Subscriber {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+
+        return port;
     }
 
-    public boolean execute_charge(String operation) {
+    public boolean execute_charge(String operation, int id) {
         boolean result = false;
         try {
-            Method method = port.getClass().getMethod(operation);
-            result = (boolean)method.invoke(port);
+            Method method = portList.get(id).getClass().getMethod(operation);
+            result = (boolean)method.invoke(portList.get(id));
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -48,44 +64,45 @@ public class BatteryMediator extends Subscriber {
         return result;
     }
 
-    public boolean execute_eject(String operation) {
-        boolean result = false;
+    public void execute_eject(String operation, int id) {
         try {
-            Method method = port.getClass().getMethod(operation);
-            result = (boolean)method.invoke(port);
+            Method method = portList.get(id).getClass().getMethod(operation);
+            method.invoke(portList.get(id));
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-
-        return result;
     }
 
     @Subscribe
     public void receive(OnEvent event) {
-        BatteryCharger.setPower(true);
-        System.out.println(event);
+        power = true;
+        System.out.println(event + " Mediator turned on!");
     }
 
     @Subscribe
     public void receive(OffEvent event) {
-        BatteryCharger.setPower(false);
-        System.out.println(event);
+        power = false;
+        System.out.println(event + " Mediator turned off!");
     }
 
     @Subscribe
     public void receive(ChargeEvent event) {
-        if(BatteryCharger.getPower() == true) {
-            execute_charge("charge");
-            System.out.println(event);
+        if(power == true) {
+            for(int i = 0; i < Configuration.instance.maxNumberBatteries; i++) {
+                execute_charge("charge", i);
+                System.out.println(event + " Battery charging!");
+            }
         } else
             System.out.println("BatteryCharger turned off!");
     }
 
     @Subscribe
     public void receive(EjectEvent event) {
-        if(BatteryCharger.getPower() == true) {
-            execute_eject("eject");
-            System.out.println(event);
+        if(power == true) {
+            for(int i = 0; i < Configuration.instance.maxNumberBatteries; i++) {
+                execute_eject("eject", i);
+                System.out.println(event + " Battery ejected!");
+            }
         } else
             System.out.println("BatteryCharger turned off!");
     }

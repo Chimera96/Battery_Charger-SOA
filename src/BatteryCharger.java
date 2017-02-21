@@ -7,15 +7,6 @@ public class BatteryCharger {
     private String name, type;
     private EventBus eventBus;
     private int eventID;
-    private static boolean power;
-
-    public static boolean getPower() {
-        return power;
-    }
-
-    public static void setPower(boolean power) {
-        power = power;
-    }
 
     public BatteryCharger() {
         this.eventBus = new EventBus();
