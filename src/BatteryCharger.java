@@ -6,28 +6,25 @@ public class BatteryCharger {
 
     private String name, type;
     private EventBus eventBus;
+    private int eventID;
 
     public void addSubscriber(Subscriber subscriber){
-
         eventBus.register(subscriber);
     }
 
     public void on(){
-
+        eventBus.post(new OnEvent(eventID++));
     }
 
     public void off(){
-
+        eventBus.post(new OffEvent(eventID++));
     }
 
     public void charge(){
-
+        eventBus.post(new ChargeEvent(eventID++));
     }
 
     public void eject(){
-
+        eventBus.post(new EjectEvent(eventID++));
     }
-
-
-
 }
