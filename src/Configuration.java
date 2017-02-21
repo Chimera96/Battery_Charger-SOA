@@ -8,6 +8,7 @@ public enum Configuration {
     public BatteryType capacityType = BatteryType.NormalBattery;
     public String userDirectory = System.getProperty("user.dir");
     public String pathToJar = userDirectory + "/" + getBatteryType() + "/" + "Battery.jar";
+    public final int maxNumberBatteries = 2;
 
     public BatteryType getBatteryType() {
         try {
